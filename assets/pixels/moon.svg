@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="cute moon">
+  <defs>
+    <linearGradient id="moonFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff6b0"/>
+      <stop offset="100%" stop-color="#ffd86b"/>
+    </linearGradient>
+  </defs>
+  <circle cx="58" cy="60" r="38" fill="url(#moonFill)"/>
+  <circle cx="72" cy="48" r="34" fill="#0000"/>
+  <path d="M36 88c10 7 23 10 35 9" fill="none" stroke="#e7b84d" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="45" cy="58" r="4" fill="#7b1f4d"/>
+  <circle cx="57" cy="56" r="4" fill="#7b1f4d"/>
+  <path d="M44 68c4 5 10 5 14 0" fill="none" stroke="#7b1f4d" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="38" cy="66" r="3" fill="#ff8ac2"/>
+  <circle cx="64" cy="64" r="3" fill="#ff8ac2"/>
+  <path d="M88 29l4 7 8 1-6 5 2 8-8-4-7 4 2-8-6-5 8-1z" fill="#fff2f9"/>
+</svg>
