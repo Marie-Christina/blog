@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../assets/shared.css" />
     <style>
       :root {
         color-scheme: light;
@@ -20,95 +21,15 @@
         --ink: #4e2f3f;
       }
 
-      * { box-sizing: border-box; }
-
       body {
         margin: 0;
         min-height: 100vh;
         padding: 1.2rem;
         font-family: "Nunito", "Trebuchet MS", sans-serif;
         color: var(--ink);
-        background:
-          radial-gradient(circle at 10% 14%, #e8f4fd 0 14%, transparent 15%),
-          radial-gradient(circle at 90% 82%, #d5ecf8 0 18%, transparent 19%),
-          linear-gradient(145deg, var(--milk), var(--blush) 48%, #c8e6f5);
       }
 
       .page { width: min(880px, 96vw); margin: 0 auto; }
-
-      header {
-        border: 1px solid #efcfdd;
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.85);
-        padding: 0.8rem;
-        box-shadow: 0 10px 24px rgba(125, 71, 97, 0.1);
-      }
-
-      nav {
-        display: flex;
-        justify-content: center;
-        gap: 0.55rem;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-
-      .menu-link, .menu-trigger {
-        text-decoration: none;
-        font-weight: 800;
-        font-size: 0.94rem;
-        color: #7a3f5a;
-        background: #fff4f8;
-        border: 1px solid #eec6d8;
-        border-radius: 999px;
-        padding: 0.42rem 0.86rem;
-        display: inline-flex;
-        align-items: center;
-        cursor: pointer;
-        font-family: inherit;
-      }
-
-      .menu-trigger::after { content: "▾"; margin-left: 0.35rem; font-size: 0.72rem; }
-
-      .menu-link:hover, .menu-trigger:hover, .menu-group:focus-within .menu-trigger { background: #ffeaf2; }
-
-      .menu-group { position: relative; }
-
-      .submenu {
-        list-style: none;
-        margin: 0;
-        padding: 0.5rem;
-        min-width: 240px;
-        background: rgba(255, 255, 255, 0.96);
-        border: 1px solid #eec6d8;
-        border-radius: 12px;
-        box-shadow: 0 12px 26px rgba(126, 74, 98, 0.14);
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%) translateY(8px);
-        top: calc(100% + 0.2rem);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 120ms ease, transform 120ms ease;
-        z-index: 5;
-      }
-
-      .menu-group:hover .submenu, .menu-group:focus-within .submenu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      .submenu a {
-        display: block;
-        padding: 0.45rem 0.55rem;
-        border-radius: 8px;
-        color: #7a3f5a;
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 700;
-      }
-
-      .submenu a:hover { background: #fff2f8; }
 
       article {
         margin-top: 1rem;
