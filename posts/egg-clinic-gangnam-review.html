@@ -4,64 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Egg Clinic Gangnam: Doctor-Led Skin Analysis for First-Timers</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@500;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="../assets/shared.css" />
     <style>
       :root {
         color-scheme: light;
-        --milk: #e8f4fd;
-        --blush: #c8e0f7;
-        --rose: #f4c8d9;
-        --cherry: #d25d88;
-        --ink: #4e2f3f;
+        --coral: #de6f54;
+        --ink: #3f322d;
+        --line: #edd6c8;
       }
 
       body {
         margin: 0;
         min-height: 100vh;
         padding: 1.2rem;
-        font-family: "Nunito", "Trebuchet MS", sans-serif;
-        color: var(--ink);
-        position: relative;
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.18;
-        background-image: radial-gradient(rgba(210, 93, 136, 0.2) 0.6px, transparent 0.6px);
-        background-size: 4px 4px;
       }
 
       .page {
         width: min(880px, 96vw);
         margin: 0 auto;
-        position: relative;
-        z-index: 1;
       }
 
       article {
         margin-top: 1rem;
         padding: 1.8rem 1.25rem;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), #fff8fb);
-        border: 1px solid #edc8d8;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid var(--line);
         border-radius: 20px;
-        box-shadow: 0 18px 36px rgba(125, 71, 97, 0.13);
+        box-shadow: 0 18px 36px rgba(112, 82, 64, 0.13);
         max-width: 820px;
       }
 
       h1 {
         margin: 0;
-        font-family: "DM Serif Display", Georgia, serif;
+        font-family: "Playfair Display", Georgia, serif;
         font-size: clamp(2rem, 6vw, 3.35rem);
-        color: #5d2b44;
+        color: var(--ink);
         line-height: 1.05;
       }
 
@@ -70,7 +47,7 @@
         font-size: 0.82rem;
         text-transform: uppercase;
         letter-spacing: 0.09em;
-        color: var(--cherry);
+        color: var(--coral);
         font-weight: 800;
       }
 
@@ -83,13 +60,32 @@
       }
 
       .tag {
-        border: 1px solid #eec6d8;
-        background: #fff4f8;
+        border: 1px solid var(--line);
+        background: #fffdf8;
         border-radius: 999px;
         padding: 0.24rem 0.65rem;
         font-size: 0.88rem;
         font-weight: 700;
-        color: #83445f;
+        color: var(--ink);
+      }
+
+      .hero-image:not(:empty) {
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 1.2rem;
+      }
+      .hero-image img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        max-height: 420px;
+      }
+
+      figcaption {
+        font-style: italic;
+        color: #8a6a5a;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
       }
 
       .entry {
@@ -102,9 +98,9 @@
 
       .entry h2 {
         margin: 0 0 0.45rem;
-        font-family: "DM Serif Display", Georgia, serif;
+        font-family: "Playfair Display", Georgia, serif;
         font-size: 1.75rem;
-        color: #6a314c;
+        color: var(--ink);
       }
 
       .entry p {
@@ -120,7 +116,7 @@
       }
 
       .subline strong {
-        color: #6a314c;
+        color: var(--ink);
       }
 
       .rubric {
@@ -132,19 +128,19 @@
 
       .rubric th,
       .rubric td {
-        border: 1px solid #efd3df;
+        border: 1px solid var(--line);
         padding: 0.45rem 0.5rem;
         text-align: left;
         vertical-align: top;
       }
 
       .rubric th {
-        background: #fff4f8;
-        color: #6d3852;
+        background: #fffdf8;
+        color: var(--ink);
       }
 
       .rubric tr:nth-child(even) td {
-        background: #fffafb;
+        background: #fffdf8;
       }
 
       .snapshot {
@@ -155,8 +151,8 @@
       }
 
       .snap-item {
-        background: #fff4f8;
-        border: 1px solid #efd3df;
+        background: #fffdf8;
+        border: 1px solid var(--line);
         border-radius: 10px;
         padding: 0.5rem 0.55rem;
         font-size: 0.88rem;
@@ -164,7 +160,7 @@
 
       .snap-item strong {
         display: block;
-        color: #6a314c;
+        color: var(--ink);
       }
     </style>
   </head>
@@ -172,26 +168,32 @@
     <div class="page">
       <header>
         <nav>
-          <a class="menu-link" href="../index.html">Home</a>
-
-          <div class="menu-group">
-            <button class="menu-trigger" type="button">Topics</button>
-            <ul class="submenu">
-              <li><a href="../index.html#beauty-posts">Beauty Around The World</a></li>
-              <li><a href="../index.html#travel-posts">Travel Diaries</a></li>
-              <li><a href="../index.html#nomad-posts">Digital Nomad Life</a></li>
-              <li><a href="../index.html#world-notes">Lifestyle Notes</a></li>
-            </ul>
-          </div>
-
-          <div class="menu-group">
-            <button class="menu-trigger" type="button">Countries</button>
-            <ul class="submenu">
-              <li><a href="country-south-korea.html">South Korea</a></li>
-              <li><a href="country-austria.html">Austria</a></li>
-              <li><a href="country-japan.html">Japan</a></li>
-              <li><a href="country-slovenia.html">Slovenia</a></li>
-            </ul>
+          <a class="nav-wordmark" href="../index.html">Postcards &amp; Passport Stamps</a>
+          <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">☰</button>
+          <div class="nav-links">
+            <div class="menu-group">
+              <button class="menu-trigger" type="button">Topics</button>
+              <ul class="submenu">
+                <li><a href="../index.html#beauty-posts">Beauty Around The World</a></li>
+                <li><a href="../index.html#travel-posts">Travel Diaries</a></li>
+                <li><a href="../index.html#nomad-posts">Digital Nomad Life</a></li>
+                <li><a href="../index.html#world-notes">Lifestyle Notes</a></li>
+              </ul>
+            </div>
+            <div class="menu-group">
+              <button class="menu-trigger" type="button">Countries</button>
+              <ul class="submenu">
+                <li><a href="country-south-korea.html">South Korea</a></li>
+                <li><a href="country-austria.html">Austria</a></li>
+                <li><a href="country-japan.html">Japan</a></li>
+                <li><a href="country-slovenia.html">Slovenia</a></li>
+              </ul>
+            </div>
+            <a class="menu-link" href="about.html">About</a>
+            <div class="nav-search">
+              <button class="search-toggle" onclick="var i=this.nextElementSibling;i.classList.toggle('open');if(i.classList.contains('open'))i.focus();" aria-label="Search">🔍</button>
+              <input class="search-input" type="search" placeholder="Search…" />
+            </div>
           </div>
         </nav>
       </header>
@@ -206,6 +208,8 @@
           <span class="tag">skin care</span>
           <span class="tag">gangnam</span>
         </div>
+
+        <div class="hero-image"></div>
 
         <section class="entry">
           <h2>At a Glance</h2>

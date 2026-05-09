@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Postcards and Passport Stamps</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Playfair+Display:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="assets/shared.css" />
     <style>
       :root {
@@ -22,36 +16,17 @@
         --coral: #de6f54;
         --ink: #3f322d;
         --line: #edd6c8;
-
-        /* Override shared.css nav defaults with homepage warm-brown palette */
-        --nav-color: #704a3a;
-        --nav-bg: #fff8f2;
-        --nav-border: #ebd8ca;
-        --nav-hover: #ffefe3;
-        --nav-submenu-shadow: rgba(112, 82, 64, 0.16);
-        --header-border: var(--line);
-        --header-shadow: rgba(112, 82, 64, 0.1);
       }
 
       body {
         margin: 0;
         min-height: 100vh;
         padding: 1.2rem;
-        font-family: "Manrope", "Trebuchet MS", sans-serif;
-        color: var(--ink);
       }
 
       .page {
         width: min(980px, 96vw);
         margin: 0 auto;
-      }
-
-      header {
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 0.8rem;
-        box-shadow: 0 12px 26px rgba(112, 82, 64, 0.1);
       }
 
       .hero {
@@ -144,6 +119,15 @@
         transform: translateY(-2px);
       }
 
+      .card-thumb {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: block;
+        margin-bottom: 0.6rem;
+      }
+
       .meta {
         font-size: 0.8rem;
         letter-spacing: 0.08em;
@@ -207,48 +191,47 @@
     <div class="page">
       <header>
         <nav>
-          <a class="menu-link" href="index.html">Home</a>
-
-          <div class="menu-group">
-            <button class="menu-trigger" type="button">Topics</button>
-            <ul class="submenu">
-              <li><a href="#beauty-posts">Beauty Around The World</a></li>
-              <li><a href="#travel-posts">Travel Diaries</a></li>
-              <li><a href="#nomad-posts">Digital Nomad Life</a></li>
-              <li><a href="#world-notes">Lifestyle Notes</a></li>
-            </ul>
-          </div>
-
-          <div class="menu-group">
-            <button class="menu-trigger" type="button">Countries</button>
-            <ul class="submenu">
-              <li><a href="posts/country-south-korea.html">South Korea</a></li>
-              <li><a href="posts/country-austria.html">Austria</a></li>
-              <li><a href="posts/country-japan.html">Japan</a></li>
-              <li><a href="posts/country-slovenia.html">Slovenia</a></li>
-            </ul>
+          <a class="nav-wordmark" href="index.html">Postcards &amp; Passport Stamps</a>
+          <button class="nav-hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">☰</button>
+          <div class="nav-links">
+            <a class="menu-link" href="posts/about.html">Start Here</a>
+            <div class="menu-group">
+              <button class="menu-trigger" type="button">Places</button>
+              <ul class="submenu">
+                <li><a href="posts/country-south-korea.html">South Korea</a></li>
+                <li><a href="posts/country-austria.html">Austria</a></li>
+                <li><a href="posts/country-japan.html">Japan</a></li>
+                <li><a href="posts/country-slovenia.html">Slovenia</a></li>
+              </ul>
+            </div>
+            <a class="menu-link" href="#beauty-posts">Beauty &amp; Wellness</a>
+            <a class="menu-link" href="#travel-posts">Hiking</a>
+            <a class="menu-link" href="posts/about.html">About</a>
+            <div class="nav-search">
+              <button class="search-toggle" onclick="var i=this.nextElementSibling;i.classList.toggle('open');if(i.classList.contains('open'))i.focus();" aria-label="Search">🔍</button>
+              <input class="search-input" type="search" placeholder="Search…" />
+            </div>
           </div>
         </nav>
       </header>
 
       <main class="hero">
-        <p class="eyebrow">Lifestyle and Travel Blog</p>
+        <p class="eyebrow">Wellness · Slow Travel · Food · Hiking</p>
         <h1>Postcards and Passport Stamps</h1>
         <p class="intro">
-          A living journal about travel days, digital nomad routines, and beauty discoveries around
-          the world. This is where I document what worked, what surprised me, and what I would do
-          differently next time.
+          A personal travel journal about slow stays, wellness rituals, and food finds in smaller,
+          underwritten places across Asia and Europe.
         </p>
         <div class="pill-row">
-          <span class="pill">Travel</span>
-          <span class="pill">Digital Nomad</span>
-          <span class="pill">Beauty Worldwide</span>
-          <span class="pill">City Guides</span>
+          <span class="pill">Slow Travel</span>
+          <span class="pill">Wellness</span>
+          <span class="pill">Food</span>
+          <span class="pill">Hiking</span>
         </div>
       </main>
 
       <section class="panel" id="beauty-posts">
-        <h2>Beauty Around The World</h2>
+        <h2>Beauty &amp; Wellness</h2>
         <p class="panel-lead">Clinic reviews and skin-care experiences by city.</p>
         <div class="cards">
           <a class="post-card" href="posts/shinebean-clinic-gangnam.html">
@@ -289,6 +272,7 @@
             <div class="tags">travel · korea · gangwon province · sokcho · food</div>
           </a>
           <a class="post-card" href="posts/bad-gastein-thermal-day-guide.html">
+            <img class="card-thumb" src="images/posts/bad-gastein-town.jpeg" alt="Bad Gastein town with snow-capped Alps in the background" />
             <div class="meta">Mountain Stopover</div>
             <strong>Bad Gastein: Thermal Spa and Mountain Day Guide</strong>
             <span>A 1-2 day alpine reset between trains, hikes, and thermal baths.</span>
@@ -310,25 +294,9 @@
       </section>
 
       <section class="panel" id="nomad-posts">
-        <h2>Digital Nomad Life</h2>
-        <p class="panel-lead">Systems and habits that make remote life sustainable on the road.</p>
-        <div class="grid-2">
-          <article class="teaser nomad">
-            <strong>Nomad Workday Stack</strong>
-            <p class="tiny">My portable setup, focus routine, and backup-plan checklist.</p>
-          </article>
-          <article class="teaser nomad">
-            <strong>Slow Travel Framework</strong>
-            <p class="tiny">How I choose neighborhoods, gyms, and cafes for monthly stays.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="panel" id="world-notes">
-        <h2>Lifestyle Notes</h2>
-        <p class="panel-lead">
-          Expanding soon with food spots, beauty products by country, and everyday travel rituals.
-        </p>
+        <h2>Slow Travel &amp; Food</h2>
+        <p class="panel-lead">Market finds, regional dishes, and notes on staying longer than planned.</p>
+        <p class="panel-lead">Posts coming soon.</p>
       </section>
     </div>
   </body>
