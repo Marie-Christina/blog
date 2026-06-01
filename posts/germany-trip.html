@@ -338,7 +338,43 @@ function showTab(id,btn){
   btn.classList.add('active');
 }
 
-function toggleTodo(cb,id){document.getElementById(id).classList.toggle('done',cb.checked);}
+// ── localStorage persistence ─────────────────────────────────────────────────
+const LS={todos:'gg26_todos',actDates:'gg26_actDates',actDone:'gg26_actDone',expenses:'gg26_expenses',nextId:'gg26_nextId'};
+
+function save(){
+  try{
+    const todos={};
+    document.querySelectorAll('.todo-item[id]').forEach(el=>{todos[el.id]=el.querySelector('input').checked;});
+    localStorage.setItem(LS.todos,JSON.stringify(todos));
+    localStorage.setItem(LS.actDates,JSON.stringify(actDates));
+    localStorage.setItem(LS.actDone,JSON.stringify(actDone));
+    localStorage.setItem(LS.expenses,JSON.stringify(expenses));
+    localStorage.setItem(LS.nextId,nextId);
+  }catch(e){}
+}
+
+function loadState(){
+  try{
+    const d=localStorage.getItem(LS.actDates);if(d)actDates=JSON.parse(d);
+    const o=localStorage.getItem(LS.actDone);if(o)actDone=JSON.parse(o);
+    const ex=localStorage.getItem(LS.expenses);if(ex)expenses=JSON.parse(ex);
+    const ni=localStorage.getItem(LS.nextId);if(ni)nextId=parseInt(ni);
+  }catch(e){}
+}
+
+function restoreTodos(){
+  try{
+    const t=JSON.parse(localStorage.getItem(LS.todos)||'{}');
+    Object.entries(t).forEach(([id,checked])=>{
+      const el=document.getElementById(id);if(!el)return;
+      el.querySelector('input').checked=checked;
+      el.classList.toggle('done',checked);
+    });
+  }catch(e){}
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+function toggleTodo(cb,id){document.getElementById(id).classList.toggle('done',cb.checked);save();}
 
 const TRIP_DATES=[
   {val:'sep26',label:'Sat Sep 26',region:'Peiting / Augsburg',dow:6},
@@ -382,8 +418,8 @@ let actDates={wieskirche:'sep26',tegelberg:'sep27',zugspitze:'sep28',eaglesnest:
 let actDone={},actView='region';
 
 function setActView(view,btn){actView=view;document.querySelectorAll('.act-filters button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderActivities();}
-function assignDate(id,val){actDates[id]=val;renderActivities();}
-function toggleActDone(id){actDone[id]=!actDone[id];renderActivities();}
+function assignDate(id,val){actDates[id]=val;renderActivities();save();}
+function toggleActDone(id){actDone[id]=!actDone[id];renderActivities();save();}
 
 function buildActItem(act){
   const dv=actDates[act.id]||'',done=actDone[act.id]||false;
@@ -430,10 +466,10 @@ function addExpense(){
   expenses.push({id:nextId++,desc,total:amt,paidBy:paid});
   document.getElementById('new-desc').value='';
   document.getElementById('new-amt').value='';
-  renderExpenses();
+  renderExpenses();save();
 }
 
-function deleteExpense(id){expenses=expenses.filter(e=>e.id!==id);renderExpenses();}
+function deleteExpense(id){expenses=expenses.filter(e=>e.id!==id);renderExpenses();save();}
 function fmt(n){return n==null?'—':'$'+n.toFixed(2);}
 
 function renderExpenses(){
@@ -458,8 +494,10 @@ function renderExpenses(){
   document.getElementById('net-sub').textContent=Math.abs(net)<0.01?'':net>0?'Katie owes Christina':'Christina owes Katie';
 }
 
+loadState();
 renderActivities();
 renderExpenses();
+restoreTodos();
 </script>
 </body>
 </html>
