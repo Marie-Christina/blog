@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Germany Trip 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f0eb; color: #2c2c2c; }
+  header { background: linear-gradient(135deg, #1a3a2a 0%, #2d5a3d 100%); color: white; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.5px; }
+  header .countdown { font-size: 0.85rem; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 20px; }
+  nav { display: flex; background: #fff; border-bottom: 2px solid #e0d8ce; overflow-x: auto; }
+  nav button { padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 0.88rem; font-weight: 600; color: #666; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+  nav button.active { color: #2d5a3d; border-bottom-color: #2d5a3d; }
+  nav button:hover:not(.active) { color: #2d5a3d; background: #f5f0eb; }
+  .tab { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
+  .tab.active { display: block; }
+  .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card h3 { font-size: 0.95rem; font-weight: 700; color: #1a3a2a; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: #f5f0eb; text-align: left; padding: 8px 10px; color: #555; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  td { padding: 9px 10px; border-bottom: 1px solid #f0ebe4; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+  .badge-green { background: #d4edda; color: #155724; }
+  .badge-yellow { background: #fff3cd; color: #856404; }
+  .badge-red { background: #f8d7da; color: #721c24; }
+  .badge-gray { background: #e2e3e5; color: #383d41; }
+  .info-row { display: flex; justify-content: space-between; font-size: 0.83rem; padding: 5px 0; border-bottom: 1px solid #f5f0eb; }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .lbl { color: #666; }
+  .info-row .val { font-weight: 600; color: #1a3a2a; text-align: right; }
+  .booking-id { font-size: 0.75rem; background: #eef7f0; color: #2d5a3d; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-weight: 700; }
+  .warn { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 8px 12px; font-size: 0.8rem; color: #7a5c00; margin-top: 8px; }
+  .itinerary-day { background: white; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border-left: 4px solid #2d5a3d; }
+  .itinerary-day .date-label { font-size: 0.8rem; font-weight: 700; color: #2d5a3d; text-transform: uppercase; letter-spacing: 0.5px; }
+  .itinerary-day .location { font-size: 1rem; font-weight: 700; color: #1a3a2a; margin: 2px 0; }
+  .itinerary-day .detail { font-size: 0.83rem; color: #555; line-height: 1.5; }
+  .todo-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f0ebe4; }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-item input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; cursor: pointer; accent-color: #2d5a3d; flex-shrink: 0; }
+  .todo-item label { font-size: 0.86rem; cursor: pointer; line-height: 1.4; }
+  .todo-item.done label { text-decoration: line-through; color: #aaa; }
+  .act-filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .act-filters button { padding: 5px 14px; border: 1.5px solid #ddd; border-radius: 20px; background: white; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: #555; transition: all 0.2s; }
+  .act-filters button.active { background: #2d5a3d; color: white; border-color: #2d5a3d; }
+  .act-item { padding: 10px 0; border-bottom: 1px solid #f0ebe4; display: flex; align-items: flex-start; gap: 10px; }
+  .act-item:last-child { border-bottom: none; }
+  .act-item .act-info { flex: 1; }
+  .act-item .act-name { font-size: 0.88rem; font-weight: 700; color: #1a3a2a; }
+  .act-item .act-meta { font-size: 0.78rem; color: #777; margin-top: 2px; line-height: 1.4; }
+  .act-item .act-note { font-size: 0.78rem; color: #c0392b; font-weight: 600; margin-top: 2px; }
+  .act-date-select { font-size: 0.75rem; border: 1px solid #ddd; border-radius: 6px; padding: 3px 6px; color: #444; background: #fafafa; cursor: pointer; }
+  .region-header { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: white; background: #2d5a3d; padding: 6px 12px; border-radius: 6px; margin: 14px 0 8px; }
+  .date-group-header { font-size: 0.85rem; font-weight: 700; color: #2d5a3d; padding: 10px 0 4px; border-bottom: 2px solid #e8f0eb; margin-bottom: 4px; }
+
+  /* Route timeline */
+  .route-timeline { position: relative; padding: 4px 0; }
+  .route-stop { display: flex; align-items: flex-start; gap: 14px; }
+  .route-stop-left { display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0; }
+  .route-dot { width: 14px; height: 14px; border-radius: 50%; background: #2d5a3d; border: 3px solid white; box-shadow: 0 0 0 2px #2d5a3d; flex-shrink: 0; margin-top: 4px; }
+  .route-dot.start { background: #27ae60; box-shadow: 0 0 0 2px #27ae60; width: 16px; height: 16px; }
+  .route-dot.end { background: #c0392b; box-shadow: 0 0 0 2px #c0392b; width: 16px; height: 16px; }
+  .route-connector { width: 2px; background: #b7d9c0; flex: 1; min-height: 28px; }
+  .route-stop-right { flex: 1; padding-bottom: 4px; }
+  .route-stop-name { font-size: 0.95rem; font-weight: 700; color: #1a3a2a; }
+  .route-stop-sub { font-size: 0.79rem; color: #555; margin-top: 3px; line-height: 1.5; }
+  .route-stop-badge { display: inline-block; margin-top: 5px; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: #eef7f0; color: #2d5a3d; }
+  .route-leg-row { display: flex; align-items: center; gap: 10px; padding: 2px 0; }
+  .route-leg-line { width: 2px; min-height: 28px; background: repeating-linear-gradient(to bottom,#b7d9c0 0,#b7d9c0 5px,transparent 5px,transparent 10px); margin-left: 17px; flex-shrink: 0; }
+  .route-leg-pill { background: #f5f0eb; border: 1px solid #e0d8ce; border-radius: 20px; padding: 3px 11px; font-size: 0.74rem; color: #555; font-weight: 600; }
+  .map-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; background: #2d5a3d; color: white; text-decoration: none; padding: 9px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; }
+  .map-link:hover { background: #1a3a2a; }
+
+  /* Expenses */
+  .balance-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .balance-box { background: white; border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .balance-box .lbl { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 6px; }
+  .balance-box .amt { font-size: 1.5rem; font-weight: 800; color: #1a3a2a; }
+  .balance-box.net-box { background: linear-gradient(135deg, #1a3a2a, #2d5a3d); }
+  .balance-box.net-box .lbl { color: rgba(255,255,255,0.7); }
+  .balance-box.net-box .amt { color: white; }
+  .balance-box.net-box .sub { color: rgba(255,255,255,0.8); font-size: 0.78rem; margin-top: 4px; }
+  .add-expense-form { background: #eef7f0; border: 1.5px solid #b7d9c0; border-radius: 12px; padding: 16px; margin-bottom: 18px; }
+  .add-expense-form h3 { font-size: 0.9rem; font-weight: 700; color: #1a3a2a; margin-bottom: 12px; }
+  .form-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label { font-size: 0.75rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.4px; }
+  .form-group input, .form-group select { border: 1.5px solid #c8dece; border-radius: 8px; padding: 8px 10px; font-size: 0.88rem; background: white; color: #2c2c2c; outline: none; width: 100%; }
+  .form-group input:focus, .form-group select:focus { border-color: #2d5a3d; }
+  .add-btn { background: #2d5a3d; color: white; border: none; border-radius: 8px; padding: 9px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .add-btn:hover { background: #1a3a2a; }
+  .exp-table-wrap { overflow-x: auto; }
+  .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 1rem; padding: 2px 6px; border-radius: 4px; }
+  .del-btn:hover { color: #c0392b; }
+  .paid-christina { color: #2d5a3d; font-weight: 700; }
+  .paid-katie { color: #8e44ad; font-weight: 700; }
+  .paid-split { color: #e67e22; font-weight: 700; }
+  .owed-amt { font-weight: 700; }
+  .owed-c { color: #2d5a3d; }
+  .owed-k { color: #8e44ad; }
+  .settled { color: #888; font-style: italic; font-size: 0.8rem; }
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr 1fr; }
+    .add-btn { grid-column: 1/-1; }
+    .balance-bar { grid-template-columns: 1fr 1fr; }
+    .balance-bar .net-box { grid-column: 1/-1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div style="font-size:0.75rem;opacity:0.8;margin-bottom:2px;">🇩🇪 Christina &amp; Katie</div>
+    <h1>Germany Trip 2026</h1>
+    <div style="font-size:0.75rem;opacity:0.7;margin-top:2px;">Sep 25 – Oct 9 · 14 nights</div>
+  </div>
+  <div class="countdown" id="countdown">Loading…</div>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('itinerary',this)">📅 Itinerary</button>
+  <button onclick="showTab('logistics',this)">✈️ Logistics</button>
+  <button onclick="showTab('activities',this)">🥾 Activities</button>
+  <button onclick="showTab('todo',this)">✅ To-Do</button>
+  <button onclick="showTab('expenses',this)">💶 Expenses</button>
+</nav>
+
+<!-- ITINERARY -->
+<div id="tab-itinerary" class="tab active">
+  <div class="itinerary-day" style="border-left-color:#7f8c8d;"><div class="date-label">Fri Sep 25</div><div class="location">✈️ Travel Day</div><div class="detail">Depart US → Frankfurt</div></div>
+  <div class="itinerary-day"><div class="date-label">Sat Sep 26</div><div class="location">Augsburg → Peiting</div><div class="detail">Arrive Frankfurt · Train FRA → Augsburg HBF · Pick up Sixt rental car 14:30 · Drive to Peiting (~1 hr) · Possible Wieskirche stop en route</div></div>
+  <div class="itinerary-day"><div class="date-label">Sun Sep 27</div><div class="location">Peiting / Füssen area</div><div class="detail">Tegelbergbahn gondola up · Hike down to Neuschwanstein · Stay Peiting</div></div>
+  <div class="itinerary-day"><div class="date-label">Mon Sep 28</div><div class="location">Garmisch → Berchtesgaden</div><div class="detail">Zugspitze · Garmisch-Partenkirchen · Drive to Berchtesgaden (~2.5 hrs) · Arrive Pension Anötzlehen ~17:00</div></div>
+  <div class="itinerary-day"><div class="date-label">Tue Sep 29</div><div class="location">Berchtesgaden</div><div class="detail">Eagle's Nest · Salt Mines · Königssee</div></div>
+  <div class="itinerary-day"><div class="date-label">Wed Sep 30</div><div class="location">Berchtesgaden → Nürnberg</div><div class="detail">Final Berchtesgaden activities · Drive to Nürnberg (~3 hrs) · Check in</div></div>
+  <div class="itinerary-day"><div class="date-label">Thu Oct 1</div><div class="location">Nürnberg</div><div class="detail">Explore Nürnberg (Kaiserburg, Altstadt, Dok-Zentrum) · Return Sixt at Nürnberg HBF 20:00</div></div>
+  <div class="itinerary-day"><div class="date-label">Fri Oct 2</div><div class="location">Fünf-Seidla-Steig → Munich</div><div class="detail">Gräfenbergbahn Nürnberg → Gräfenberg · Fünf-Seidla-Steig hike (5 breweries, ~14km) · ICE Nürnberg → Munich</div></div>
+  <div class="itinerary-day"><div class="date-label">Sat Oct 3</div><div class="location">Munich — Oktoberfest</div><div class="detail">Oktoberfest Wiesn · Wing it — no tent reservations needed for 2!</div></div>
+  <div class="itinerary-day"><div class="date-label">Sun Oct 4</div><div class="location">Munich</div><div class="detail">Oktoberfest Day 2 · Englischer Garten · Marienplatz</div></div>
+  <div class="itinerary-day"><div class="date-label">Mon Oct 5</div><div class="location">Munich → Erlangen</div><div class="detail">Train Munich → Erlangen (~1.5 hrs) · Check in Erlangen hotel</div></div>
+  <div class="itinerary-day"><div class="date-label">Tue Oct 6</div><div class="location">Erlangen / day trips</div><div class="detail">Explore Erlangen + Bamberg day trip option (20 min by train)</div></div>
+  <div class="itinerary-day"><div class="date-label">Wed Oct 7</div><div class="location">Erlangen area</div><div class="detail">Franconia exploration</div></div>
+  <div class="itinerary-day"><div class="date-label">Thu Oct 8</div><div class="location">Erlangen → Frankfurt</div><div class="detail">Train to Frankfurt · Pre-flight hotel · Evening in Frankfurt</div></div>
+  <div class="itinerary-day" style="border-left-color:#7f8c8d;"><div class="date-label">Fri Oct 9</div><div class="location">✈️ Fly Home</div><div class="detail">FRA → US</div></div>
+</div>
+
+<!-- LOGISTICS -->
+<div id="tab-logistics" class="tab">
+
+  <div class="card">
+    <h3>🗺️ Driving Route — Sep 26 to Oct 1</h3>
+    <div style="font-size:0.8rem;color:#777;margin-bottom:18px;">Sixt rental car · Pickup Augsburg HBF 14:30 → Return Nürnberg HBF 20:00 · ~580 km total</div>
+
+    <div class="route-timeline">
+
+      <div class="route-stop">
+        <div class="route-stop-left"><div class="route-dot start"></div><div class="route-connector"></div></div>
+        <div class="route-stop-right">
+          <div class="route-stop-name">📍 Augsburg HBF</div>
+          <div class="route-stop-sub">Sat Sep 26 · Pick up Sixt rental car at 14:30<br>Booking <span class="booking-id">9733465985</span></div>
+          <span class="route-stop-badge">🚗 Car pickup</span>
+        </div>
+      </div>
+
+      <div class="route-leg-row"><div class="route-leg-line"></div><div class="route-leg-pill">~70 km · ~1 hr · A95 south toward Garmisch</div></div>
+
+      <div class="route-stop">
+        <div class="route-stop-left"><div class="route-dot"></div><div class="route-connector"></div></div>
+        <div class="route-stop-right">
+          <div class="route-stop-name">🏨 Peiting</div>
+          <div class="route-stop-sub">Sep 26–28 (2 nights) · Hotel-Gasthof Zum Dragoner · Ammergauer Str. 11<br>Sep 26: Optional Wieskirche stop on the way in<br>Sep 27: Day trip — Tegelbergbahn gondola + Neuschwanstein hike</div>
+          <span class="route-stop-badge">2 nights</span>
+        </div>
+      </div>
+
+      <div class="route-leg-row"><div class="route-leg-line"></div><div class="route-leg-pill">~60 km · ~50 min · B23 east via Oberau</div></div>
+
+      <div class="route-stop">
+        <div class="route-stop-left"><div class="route-dot"></div><div class="route-connector"></div></div>
+        <div class="route-stop-right">
+          <div class="route-stop-name">⛰️ Garmisch-Partenkirchen</div>
+          <div class="route-stop-sub">Mon Sep 28 · Zugspitze (Germany's highest peak) + town walk · Day stop only — drive onward to Berchtesgaden same day</div>
+          <span class="route-stop-badge">Day stop only</span>
+        </div>
+      </div>
+
+      <div class="route-leg-row"><div class="route-leg-line"></div><div class="route-leg-pill">~170 km · ~2 hrs · via Rosenheim / A8 east</div></div>
+
+      <div class="route-stop">
+        <div class="route-stop-left"><div class="route-dot"></div><div class="route-connector"></div></div>
+        <div class="route-stop-right">
+          <div class="route-stop-name">🏔️ Berchtesgaden</div>
+          <div class="route-stop-sub">Sep 28–Oct 1 (3 nights) · Pension Anötzlehen · Mieslötzweg 23 · Arrive ~17:00 Sep 28<br>Sep 29: Eagle's Nest + Salt Mines · Sep 30: Königssee boat tour</div>
+          <span class="route-stop-badge">3 nights</span>
+        </div>
+      </div>
+
+      <div class="route-leg-row"><div class="route-leg-line"></div><div class="route-leg-pill">~280 km · ~2.5–3 hrs · A93 / A9 north</div></div>
+
+      <div class="route-stop">
+        <div class="route-stop-left"><div class="route-dot end"></div></div>
+        <div class="route-stop-right">
+          <div class="route-stop-name">🏰 Nürnberg HBF</div>
+          <div class="route-stop-sub">Sep 30–Oct 1 · Explore Altstadt, Kaiserburg, Dok-Zentrum<br>Thu Oct 1: Return car at Nürnberg HBF by 20:00</div>
+          <span class="route-stop-badge">🚗 Car return</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid #f0ebe4;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div style="font-size:0.8rem;color:#666;">Total: ~580 km · 5 driving days · all Autobahn-accessible</div>
+      <a class="map-link" href="https://www.google.com/maps/dir/Augsburg,+Germany/Hotel+Gasthof+Zum+Dragoner,+Ammergauer+Str.+11,+86971+Peiting,+Germany/Garmisch-Partenkirchen,+82467,+Germany/Bauernhof+Pension+An%C3%B6tzlehen,+Miesl%C3%B6tzweg+23,+83471+Berchtesgaden,+Germany/Nuremberg,+Germany/" target="_blank">🗺️ Open in Google Maps</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✈️ Flights</h3>
+    <table>
+      <tr><th>Who</th><th>Route</th><th>Status</th></tr>
+      <tr><td>Christina</td><td>US ↔ Frankfurt (FRA)</td><td><span class="badge badge-green">Booked</span></td></tr>
+      <tr><td>Katie</td><td>US ↔ Frankfurt (FRA)</td><td><span class="badge badge-green">Booked · Paid</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>🚗 Rental Car Details</h3>
+    <div class="info-row"><span class="lbl">Company</span><span class="val">Sixt</span></div>
+    <div class="info-row"><span class="lbl">Booking #</span><span class="val"><span class="booking-id">9733465985</span></span></div>
+    <div class="info-row"><span class="lbl">Pickup</span><span class="val">Augsburg HBF · Sat Sep 26 · 14:30</span></div>
+    <div class="info-row"><span class="lbl">Return</span><span class="val">Nürnberg HBF · Thu Oct 1 · 20:00</span></div>
+    <div class="info-row"><span class="lbl">Cost</span><span class="val">$400 · Christina paid · Katie owes $200</span></div>
+    <div class="warn" style="margin-top:10px;">⚠️ Need to book FRA → Augsburg HBF train to arrive before 14:30 on Sep 26</div>
+  </div>
+
+  <div class="card">
+    <h3>🚂 Key Trains</h3>
+    <table>
+      <tr><th>Date</th><th>Route</th><th>Status</th></tr>
+      <tr><td>Sep 26</td><td>FRA → Augsburg HBF (arrive by ~14:00)</td><td><span class="badge badge-red">Book!</span></td></tr>
+      <tr><td>Oct 2</td><td>Gräfenbergbahn: Nürnberg HBF → Gräfenberg</td><td><span class="badge badge-yellow">Plan set</span></td></tr>
+      <tr><td>Oct 2</td><td>ICE: Nürnberg HBF → München HBF</td><td><span class="badge badge-yellow">Book ahead</span></td></tr>
+      <tr><td>Oct 5</td><td>München → Erlangen</td><td><span class="badge badge-gray">Later</span></td></tr>
+      <tr><td>Oct 8</td><td>Erlangen → Frankfurt</td><td><span class="badge badge-gray">Later</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>🏨 Hotels</h3>
+    <table>
+      <tr><th>Dates</th><th>Hotel</th><th>Location</th><th>Status</th></tr>
+      <tr><td>Sep 26–28</td><td>Hotel-Gasthof Zum Dragoner</td><td>Peiting</td><td><span class="badge badge-green">Booked ✓</span></td></tr>
+      <tr><td>Sep 28–Oct 1</td><td>Pension Anötzlehen Murf</td><td>Berchtesgaden</td><td><span class="badge badge-green">Booked ✓</span></td></tr>
+      <tr><td>Sep 30–Oct 2</td><td>TBD</td><td>Nürnberg</td><td><span class="badge badge-red">Need to book</span></td></tr>
+      <tr><td>Oct 2–5</td><td>Mercure München</td><td>Munich</td><td><span class="badge badge-green">Booked ✓</span></td></tr>
+      <tr><td>Oct 5–8</td><td>TBD</td><td>Erlangen area</td><td><span class="badge badge-red">Need to book</span></td></tr>
+      <tr><td>Oct 8</td><td>TBD</td><td>Frankfurt (near FRA)</td><td><span class="badge badge-red">Need to book</span></td></tr>
+    </table>
+    <div class="warn" style="margin-top:10px;">⚠️ Message Pension Anötzlehen about late Sep 28 arrival (~17:00)</div>
+  </div>
+</div>
+
+<!-- ACTIVITIES -->
+<div id="tab-activities" class="tab">
+  <div class="act-filters">
+    <button class="active" onclick="setActView('region',this)">By Region</button>
+    <button onclick="setActView('date',this)">By Date</button>
+  </div>
+  <div id="act-container"></div>
+</div>
+
+<!-- TO-DO -->
+<div id="tab-todo" class="tab">
+  <div class="card">
+    <h3>🔴 Book ASAP</h3>
+    <div class="todo-item" id="td-train-fra"><input type="checkbox" onchange="toggleTodo(this,'td-train-fra')"><label>Book FRA → Augsburg HBF train (Sep 26, arrive by ~14:00)</label></div>
+    <div class="todo-item" id="td-nurnberg-hotel"><input type="checkbox" onchange="toggleTodo(this,'td-nurnberg-hotel')"><label>Book Nürnberg hotel (Sep 30–Oct 2, 2 nights)</label></div>
+    <div class="todo-item" id="td-erlangen-hotel"><input type="checkbox" onchange="toggleTodo(this,'td-erlangen-hotel')"><label>Book Erlangen area hotel (Oct 5–8, 3 nights)</label></div>
+    <div class="todo-item" id="td-fra-hotel"><input type="checkbox" onchange="toggleTodo(this,'td-fra-hotel')"><label>Book Frankfurt pre-flight hotel (Oct 8, 1 night near FRA)</label></div>
+    <div class="todo-item" id="td-ice-oct2"><input type="checkbox" onchange="toggleTodo(this,'td-ice-oct2')"><label>Book ICE Nürnberg → Munich for Oct 2 (evening departure after hike)</label></div>
+  </div>
+  <div class="card">
+    <h3>🟡 Do Soon</h3>
+    <div class="todo-item" id="td-saltmines"><input type="checkbox" onchange="toggleTodo(this,'td-saltmines')"><label>Reserve Berchtesgaden Salt Mines tickets (book ahead — sells out)</label></div>
+    <div class="todo-item" id="td-eaglesnest"><input type="checkbox" onchange="toggleTodo(this,'td-eaglesnest')"><label>Verify Eagle's Nest 2026 season closing date (usually closes ~mid-Oct)</label></div>
+    <div class="todo-item" id="td-pension-msg"><input type="checkbox" onchange="toggleTodo(this,'td-pension-msg')"><label>Message Pension Anötzlehen about late Sep 28 arrival (~17:00)</label></div>
+    <div class="todo-item" id="td-katie-return"><input type="checkbox" onchange="toggleTodo(this,'td-katie-return')"><label>Confirm Katie's return flight date</label></div>
+    <div class="todo-item" id="td-zugspitze"><input type="checkbox" onchange="toggleTodo(this,'td-zugspitze')"><label>Book Zugspitze Seilbahn tickets online (avoid queues)</label></div>
+  </div>
+  <div class="card">
+    <h3>🟢 Nice to Have</h3>
+    <div class="todo-item" id="td-tegelberg"><input type="checkbox" onchange="toggleTodo(this,'td-tegelberg')"><label>Check Tegelbergbahn gondola hours for Sep 27</label></div>
+    <div class="todo-item" id="td-munich-plan"><input type="checkbox" onchange="toggleTodo(this,'td-munich-plan')"><label>Plan Munich sightseeing beyond Oktoberfest</label></div>
+    <div class="todo-item" id="td-erlangen-plan"><input type="checkbox" onchange="toggleTodo(this,'td-erlangen-plan')"><label>Research Erlangen / Franconia activities (Bamberg day trip?)</label></div>
+  </div>
+</div>
+
+<!-- EXPENSES -->
+<div id="tab-expenses" class="tab">
+  <div class="balance-bar">
+    <div class="balance-box"><div class="lbl">Christina paid</div><div class="amt" id="c-paid">$0</div></div>
+    <div class="balance-box"><div class="lbl">Katie paid</div><div class="amt" id="k-paid">$0</div></div>
+    <div class="balance-box net-box"><div class="lbl">Net balance</div><div class="amt" id="net-label">Even</div><div class="sub" id="net-sub"></div></div>
+  </div>
+  <div class="add-expense-form">
+    <h3>➕ Add Expense</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Description</label><input type="text" id="new-desc" placeholder="e.g. Pension Anötzlehen, Zugspitze tickets…"/></div>
+      <div class="form-group"><label>Amount ($)</label><input type="number" id="new-amt" placeholder="0.00" min="0" step="0.01"/></div>
+      <div class="form-group"><label>Paid by</label><select id="new-paid"><option value="Christina">Christina</option><option value="Katie">Katie</option><option value="Split">Split equally</option></select></div>
+      <button class="add-btn" onclick="addExpense()">Add</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📋 All Expenses</h3>
+    <div class="exp-table-wrap">
+      <table>
+        <thead><tr><th>Description</th><th style="text-align:right;">Total</th><th>Paid By</th><th style="text-align:right;">Christina owes</th><th style="text-align:right;">Katie owes</th><th></th></tr></thead>
+        <tbody id="expense-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const diff=new Date('2026-09-25')-new Date();
+  document.getElementById('countdown').textContent=diff>0?Math.floor(diff/86400000)+' days to go!':'🎉 Trip is here!';
+})();
+
+function showTab(id,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleTodo(cb,id){document.getElementById(id).classList.toggle('done',cb.checked);}
+
+const TRIP_DATES=[
+  {val:'sep26',label:'Sat Sep 26',region:'Peiting / Augsburg',dow:6},
+  {val:'sep27',label:'Sun Sep 27',region:'Füssen / Neuschwanstein',dow:0},
+  {val:'sep28',label:'Mon Sep 28',region:'Garmisch / Berchtesgaden',dow:1},
+  {val:'sep29',label:'Tue Sep 29',region:'Berchtesgaden',dow:2},
+  {val:'sep30',label:'Wed Sep 30',region:'Berchtesgaden / drive',dow:3},
+  {val:'oct1', label:'Thu Oct 1', region:'Nürnberg',dow:4},
+  {val:'oct2', label:'Fri Oct 2', region:'Fünf-Seidla-Steig → Munich',dow:5},
+  {val:'oct3', label:'Sat Oct 3', region:'Munich',dow:6},
+  {val:'oct4', label:'Sun Oct 4', region:'Munich',dow:0},
+  {val:'oct5', label:'Mon Oct 5', region:'Erlangen',dow:1},
+  {val:'oct6', label:'Tue Oct 6', region:'Erlangen',dow:2},
+  {val:'oct7', label:'Wed Oct 7', region:'Erlangen',dow:3},
+  {val:'oct8', label:'Thu Oct 8', region:'Frankfurt',dow:4},
+];
+const ACTIVITIES=[
+  {id:'wieskirche',name:'Wieskirche',region:'Allgäu',opens:'8:00',note:'UNESCO pilgrimage church · near Steingaden',food:false,priority:'high'},
+  {id:'tegelberg',name:'Tegelbergbahn + Neuschwanstein Hike',region:'Allgäu',opens:'9:00',note:'Gondola up, hike down (~2 hrs)',food:false,priority:'high'},
+  {id:'neuschwanstein',name:'Neuschwanstein Castle (interior)',region:'Allgäu',opens:'9:00',note:'Book tickets in advance',food:false,priority:'med'},
+  {id:'zugspitze',name:'Zugspitze',region:'Garmisch',opens:'8:00',note:"Germany's highest peak · book Seilbahn online",food:false,priority:'high'},
+  {id:'partnach',name:'Partnachklamm gorge',region:'Garmisch',opens:'9:00',note:'~1.5 hrs · cash entry',food:false,priority:'med'},
+  {id:'garmisch-town',name:'Garmisch-Partenkirchen town',region:'Garmisch',opens:'all day',note:'Bavarian architecture, cafés',food:true,priority:'low'},
+  {id:'eaglesnest',name:"Eagle's Nest (Kehlsteinhaus)",region:'Berchtesgaden',opens:'9:00',note:'Special bus from Berchtesgaden · closes ~Oct 26',food:true,priority:'high'},
+  {id:'saltmines',name:'Berchtesgaden Salt Mines',region:'Berchtesgaden',opens:'9:00',note:'Book ahead · ~1.5 hrs underground',food:false,priority:'high'},
+  {id:'koenigsee',name:'Königssee boat tour',region:'Berchtesgaden',opens:'8:15',note:'Electric boat · echo demo · gorgeous',food:false,priority:'high'},
+  {id:'berchtesgaden-town',name:'Berchtesgaden Altstadt',region:'Berchtesgaden',opens:'all day',note:'Town centre, local food',food:true,priority:'low'},
+  {id:'kaiserburg',name:'Kaiserburg Nürnberg',region:'Nürnberg',opens:'9:00',note:'Imperial castle, panoramic views',food:false,priority:'high'},
+  {id:'nurnberg-altstadt',name:'Nürnberg Altstadt',region:'Nürnberg',opens:'all day',note:'Hauptmarkt, Frauenkirche, medieval walls',food:true,priority:'high'},
+  {id:'dok-zentrum',name:'Dokumentationszentrum',region:'Nürnberg',opens:'9:00',note:'Nazi party rally grounds doc center · closed Mondays!',food:false,priority:'med',closedDow:[1]},
+  {id:'bratwurst',name:'Nürnberger Bratwurst',region:'Nürnberg',opens:'11:00',note:'Bratwursthäusle or Zum Gulden Stern',food:true,priority:'high'},
+  {id:'funf-seidla',name:'Fünf-Seidla-Steig hike',region:'Nürnberg',opens:'varies',note:'5 brewery hike · Gräfenbergbahn · ~14km · Oct 2 ✓',food:true,priority:'high'},
+  {id:'oktoberfest',name:'Oktoberfest',region:'Munich',opens:'10:00',note:'Oct 3–4 · no reservations needed for 2',food:true,priority:'high'},
+  {id:'englischer-garten',name:'Englischer Garten',region:'Munich',opens:'all day',note:'River surfers at Eisbach · biergarten',food:true,priority:'med'},
+  {id:'marienplatz',name:'Marienplatz & Glockenspiel',region:'Munich',opens:'all day',note:'Glockenspiel chimes 11:00 & 12:00',food:false,priority:'med'},
+  {id:'nymphenburg',name:'Schloss Nymphenburg',region:'Munich',opens:'9:00',note:'Baroque palace with gardens',food:false,priority:'low'},
+  {id:'bamberg',name:'Bamberg day trip',region:'Erlangen',opens:'all day',note:'UNESCO Altstadt · Rauchbier · 20 min by train',food:true,priority:'high'},
+  {id:'erlangen-huguenot',name:'Erlangen Huguenot Quarter',region:'Erlangen',opens:'all day',note:'Historic quarter + beer scene',food:true,priority:'med'},
+];
+let actDates={wieskirche:'sep26',tegelberg:'sep27',zugspitze:'sep28',eaglesnest:'sep29',saltmines:'sep29',koenigsee:'sep30',kaiserburg:'oct1','nurnberg-altstadt':'oct1',bratwurst:'oct1','dok-zentrum':'oct1','funf-seidla':'oct2',oktoberfest:'oct3','englischer-garten':'oct4',marienplatz:'oct3',bamberg:'oct6'};
+let actDone={},actView='region';
+
+function setActView(view,btn){actView=view;document.querySelectorAll('.act-filters button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderActivities();}
+function assignDate(id,val){actDates[id]=val;renderActivities();}
+function toggleActDone(id){actDone[id]=!actDone[id];renderActivities();}
+
+function buildActItem(act){
+  const dv=actDates[act.id]||'',done=actDone[act.id]||false;
+  const conflict=act.closedDow&&dv&&act.closedDow.includes((TRIP_DATES.find(d=>d.val===dv)||{}).dow);
+  const opts='<option value="">— unassigned —</option>'+TRIP_DATES.map(d=>`<option value="${d.val}"${dv===d.val?' selected':''}>${d.label}</option>`).join('');
+  return `<div class="act-item">
+    <input type="checkbox"${done?' checked':''} onchange="toggleActDone('${act.id}')" style="accent-color:#2d5a3d;margin-top:3px;flex-shrink:0;width:16px;height:16px;cursor:pointer;">
+    <div class="act-info"${done?' style="opacity:0.4;text-decoration:line-through;"':''}>
+      <div class="act-name">${act.name}${act.food?' 🍺':''}${act.priority==='high'?' <span style="color:#c0392b;font-size:0.75rem;">★</span>':''}</div>
+      <div class="act-meta">🕐 Opens ${act.opens} · ${act.note}</div>
+      ${conflict?'<div class="act-note">⚠️ CONFLICT: closed on assigned day!</div>':''}
+    </div>
+    <select class="act-date-select" onchange="assignDate('${act.id}',this.value)">${opts}</select>
+  </div>`;
+}
+
+function renderActivities(){
+  const c=document.getElementById('act-container');if(!c)return;
+  if(actView==='region'){
+    const regions=[...new Set(ACTIVITIES.map(a=>a.region))];
+    c.innerHTML=regions.map(r=>`<div class="region-header">📍 ${r}</div><div class="card" style="margin-bottom:8px;">${ACTIVITIES.filter(a=>a.region===r).map(buildActItem).join('')}</div>`).join('');
+  } else {
+    let h='';
+    const un=ACTIVITIES.filter(a=>!actDates[a.id]);
+    if(un.length)h+=`<div class="date-group-header">📌 Unassigned</div><div class="card" style="margin-bottom:8px;">${un.map(buildActItem).join('')}</div>`;
+    TRIP_DATES.forEach(d=>{const acts=ACTIVITIES.filter(a=>actDates[a.id]===d.val);if(!acts.length)return;h+=`<div class="date-group-header">📅 ${d.label} — ${d.region}</div><div class="card" style="margin-bottom:8px;">${acts.map(buildActItem).join('')}</div>`;});
+    c.innerHTML=h||'<p style="color:#888;text-align:center;padding:20px;">No activities assigned yet</p>';
+  }
+}
+
+let expenses=[
+  {id:1,desc:"Christina's flight",total:null,paidBy:'Christina',note:'amount TBD'},
+  {id:2,desc:"Katie's flight",total:null,paidBy:'Katie',note:'paid off — even ✓'},
+  {id:3,desc:'Sixt rental car · Augsburg HBF → Nürnberg HBF · Sep 26–Oct 1',total:400,paidBy:'Christina'},
+];
+let nextId=4;
+
+function addExpense(){
+  const desc=document.getElementById('new-desc').value.trim();
+  const amt=parseFloat(document.getElementById('new-amt').value);
+  const paid=document.getElementById('new-paid').value;
+  if(!desc){document.getElementById('new-desc').focus();return;}
+  if(!amt||amt<=0){document.getElementById('new-amt').focus();return;}
+  expenses.push({id:nextId++,desc,total:amt,paidBy:paid});
+  document.getElementById('new-desc').value='';
+  document.getElementById('new-amt').value='';
+  renderExpenses();
+}
+
+function deleteExpense(id){expenses=expenses.filter(e=>e.id!==id);renderExpenses();}
+function fmt(n){return n==null?'—':'$'+n.toFixed(2);}
+
+function renderExpenses(){
+  let cPaid=0,kPaid=0,cOwes=0,kOwes=0;
+  const rows=expenses.map(e=>{
+    let cO='',kO='',pc='',pl=e.paidBy;
+    if(e.total!=null){
+      const h=e.total/2;
+      if(e.paidBy==='Christina'){cPaid+=e.total;kOwes+=h;cO='<span class="settled">—</span>';kO=`<span class="owed-amt owed-k">${fmt(h)}</span>`;pc='paid-christina';}
+      else if(e.paidBy==='Katie'){kPaid+=e.total;cOwes+=h;kO='<span class="settled">—</span>';cO=`<span class="owed-amt owed-c">${fmt(h)}</span>`;pc='paid-katie';}
+      else{cPaid+=h;kPaid+=h;cO='<span class="settled">split</span>';kO='<span class="settled">split</span>';pc='paid-split';pl='Split equally';}
+    }
+    const note=e.note?`<br><small style="color:#888;">${e.note}</small>`:'';
+    return `<tr><td>${e.desc}${note}</td><td style="text-align:right;">${fmt(e.total)}</td><td><span class="${pc}">${pl}</span></td><td style="text-align:right;">${cO}</td><td style="text-align:right;">${kO}</td><td><button class="del-btn" onclick="deleteExpense(${e.id})">✕</button></td></tr>`;
+  }).join('');
+  const tot=expenses.reduce((s,e)=>s+(e.total||0),0);
+  document.getElementById('expense-tbody').innerHTML=rows+`<tr style="background:#f5f0eb;font-weight:700;"><td>Total</td><td style="text-align:right;">${fmt(tot)}</td><td></td><td style="text-align:right;">${cOwes>0?`<span class="owed-amt owed-c">${fmt(cOwes)}</span>`:'<span class="settled">—</span>'}</td><td style="text-align:right;">${kOwes>0?`<span class="owed-amt owed-k">${fmt(kOwes)}</span>`:'<span class="settled">—</span>'}</td><td></td></tr>`;
+  document.getElementById('c-paid').textContent=fmt(cPaid);
+  document.getElementById('k-paid').textContent=fmt(kPaid);
+  const net=kOwes-cOwes;
+  document.getElementById('net-label').textContent=Math.abs(net)<0.01?'Even ✓':fmt(Math.abs(net));
+  document.getElementById('net-sub').textContent=Math.abs(net)<0.01?'':net>0?'Katie owes Christina':'Christina owes Katie';
+}
+
+renderActivities();
+renderExpenses();
+</script>
+</body>
+</html>
